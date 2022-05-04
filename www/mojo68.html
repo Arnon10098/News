@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT NEWS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"  href="stlye.css">
+</head>
+<body id = "app">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+        <header class ="bg-black/80 flex md:flex-row flex-col w-full md:justify-between justify-center  items-center text-white">
+            <h1 class ="font_keania  text-[64px] md:ml-20">
+                <button @click = "clickindex()" >IT NEWs</button> 
+            </h1>
+        </header>
+        <div class="bg-[#787676] w-full h-full">
+            <div class="w-10/12 bg-white h-full mx-auto">
+                <div class="grid grid-cols-2 justify-center ">
+                    <div class="ml-5 mt-20">
+                        
+                        
+                        <div class="mt-10 mb-20">
+                            <h2 class="font_prompt text-[40px] font-semibold text-black">{{ data.head }}<br> 
+                            </h2>
+                            <div class="w-full bg-black h-0.5 mt-5 "></div>
+                            
+                            <div>
+                                <img :src="data.image" alt="">
+                            </div>
+                            
+                            <div class="mt-8">
+                                <p class="font_prompt text-[18px] font-semibold text-black indent-16 leading-relaxed"  >
+                                    {{ data.content }}
+                                </p>
+                            </div>
+                    
+
+                            </div>
+                        </div>
+
+                    </div>
+                   
+
+            </div>
+
+        </div>
+    <script>
+         Vue.createApp({
+             created() {
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const product = urlParams.get('id')
+                let id = product;
+                 this.get_data(id)
+             },
+             data() {
+               return {
+                    message: 'Hello Vue!',
+                    data: {
+                        head: '',
+                        content: ''
+                    }
+                }
+             },
+             methods: {
+                get_data(id) {
+                axios.get("http://localhost:5000/api/post").then(res => {
+                        this.data = res.data.find(item => item._id == id)
+                    }).catch(() => {
+                        alert("Error Can't Load Data");
+                    });
+              },
+              clickindex(){
+                  window.location.href="index.html"
+              },
+             }
+         }).mount('#app')
+    </script>
+</body>
+</html>
